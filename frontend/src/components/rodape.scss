@@ -1,0 +1,32 @@
+.rodape {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    bottom: 0;
+    background-color: #ddd; /* cor de fundo igual imagem */
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .rodape .coluna {
+    flex: 1;
+    margin: 0 20px;
+  }
+  
+  .rodape h4 {
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .rodape p {
+    margin: 5px 0;
+  }
+  
+  .rodape-final {
+    
+    background-color: #ddd;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+  }
+  

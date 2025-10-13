@@ -1,0 +1,15 @@
+.cabecalho{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
+
+    .links{
+        a{
+            margin-right: 10px;
+            color: black;
+            text-decoration: none;
+        }
+    }
+   } 
