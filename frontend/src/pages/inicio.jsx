@@ -2,6 +2,10 @@ import Cabecalho from '../components/cabecalho'
 import CartaoDestaque from '../components/cartaoDestaque'
 import Rodape from '../components/rodape'
 import './inicio.scss'
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import api from "../api";
+
 
 const cartaoes =[
     {
@@ -21,6 +25,36 @@ const cartaoes =[
 
 
 export default function Inicio() {
+    const navigate = useNavigate();
+    const [usuario, setUsuario] = useState("");
+    const [livros, setLivros] = useState([])
+
+    useEffect(() => {
+        const nomeUsuario = localStorage.getItem("USUARIO")
+
+        // Se o usuário não estiver logado
+        if (nomeUsuario == undefined || nomeUsuario == null) {
+            navigate('/login')
+        } else {
+            setUsuario(nomeUsuario)
+        }
+    }, [])
+
+    function sair() {
+        localStorage.removeItem("USUARIO");
+        localStorage.removeItem("TOKEN");
+
+        navigate('/login')
+    }
+
+    async function listarLivros() {
+        const reponse = await api.get('/livros')
+        setLivros(reponse.data)
+    } 
+
+
+
+
     return(
         <div className="container-inicio">
         <Cabecalho />
@@ -36,12 +70,19 @@ export default function Inicio() {
                      descricao={c.descricao}
                      imagemDireita={c.imagemdireita}
                     />
-                    
                 )
             }
-           
+            
+                 {livros.map(livro => <div>
+                    <img height={150} src={livro.capa_url} />
+                    <h1>{livro.titulo}</h1>
+                    <h2>{livro.autor}</h2>
+                </div>)}
+
             </main>
             <Rodape />
+            <button onClick={sair}>Sair</button>
+                <button onClick={listarLivros}>Listar</button>
              </div>
     )
 }

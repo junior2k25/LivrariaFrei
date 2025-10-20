@@ -1,35 +1,19 @@
-import * as repo from '../repository/livroRepo.js';
-import { generateToken } from '../utils/jwt.js'
+import * as db from '../repository/livroRepo.js';
 
 import { Router } from "express";
+import { autenticar } from '../utils/jwt.js';
 const endpoints = Router();
 
-
-endpoints.post('/autor/titulo', async (req, resp) => {
-  let livro = req.body;
-
-  let id = await repo.procuraLivro(livro);
-  resp.send({ novoId: id });
+endpoints.get('/livros/', autenticar, async (req, resp) => {
+    try {
+        let livros = await db.listarLivros();
+        resp.send(livros)
+    }
+    catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
 })
-
-
-endpoints.post('/autor', async (req, resp) => {
-  let autor = req.body.autor;
-  let titulo = req.body.titulo;
-
-  let credenciais = await repo.consultarCredenciais(email, senha);
-
-  if (!credenciais) {
-    resp.status(401).send({
-      erro: 'Credenciais inválidas.'
-    });
-  }
-  else {
-    resp.send({
-      token: generateToken(credenciais)
-    });
-  }
-})
-
 
 export default endpoints;

@@ -1,8 +1,12 @@
 import con from "./conection.js";
 
-export async function procuraLivro() {
-    const comando = `SELECT * FROM livro`;
+export async function listarLivros() {
+    const comando = `
+        select * from tb_livro;
+    `;
 
-    const [registros] = await con.query(comando);
-    return registros;
+    let resposta = await con.query(comando)
+    let info = resposta[0];
+    
+    return info;
 }
